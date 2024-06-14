@@ -2,6 +2,7 @@
 
 ZenCode is a simple and elegant programming language designed for ease of use and readability. With its minimalist syntax and powerful features, ZenCode aims to provide a zen-like coding experience for both beginners and experienced developers.
 to use it go to this website: https://replit.com/@calestialashley/ZenCode-4?s=apph
+or go to this website (recommend): https://calestialashley-gmail-com.trinket.io/sites/zencode
 ## Features
 - Clean and intuitive syntax inspired by zen pprincipl- BasicInterpreter class for evaluating expressions and assigning variables
 - Interactive REPL (Read-Eval-Print Loop) for quick experimentation and testing
