@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ZenCode</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            height: 300px;
+            overflow-y: auto;
+        }
+        #inputArea {
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: calc(100% - 60px);
+            padding: 5px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ZenCode</h1>
+    <div id="output"></div>
+    <div id="inputArea">
+        <input type="text" id="commandInput" placeholder="Enter command here">
+        <button onclick="executeCommand()">Execute</button>
+    </div>
+    <script>
+        class BasicInterpreter {
+            constructor() {
+                this.variables = {};
+                this.inputRequested = false;
+                this.inputCallback = null;
+            }
+
+            evalExpr(expr) {
+                try {
+                    return Function('"use strict"; return (' + expr + ')').call(this.variables);
+                } catch (e) {
+                    return `Error: ${e}`;
+                }
+            }
+
+            assignVar(varName, value) {
+                try {
+                    const result = Function('"use strict"; return (' + value + ')').call(this.variables);
+                    this.variables[varName] = result;
+                    return `${varName} = ${result}`;
+                } catch (e) {
+                    return `Error: ${e}`;
+                }
+            }
+
+            execute(command) {
+                if (this.inputRequested) {
+                    this.inputRequested = false;
+                    if (this.inputCallback) {
+                        this.inputCallback(command);
+                        return '';
+                    }
+                }
+                if (command.includes('=')) {
+                    const [varName, expr] = command.split('=').map(part => part.trim());
+                    return this.assignVar(varName, expr);
+                } else if (command.startsWith('print(') && command.endsWith(')')) {
+                    const expr = command.slice(6, -1).trim();
+                    return this.evalExpr(expr);
+                } else if (command.startsWith('input(') && command.endsWith(')')) {
+                    const promptText = command.slice(6, -1).trim();
+                    return this.input(promptText);
+                } else {
+                    return this.evalExpr(command);
+                }
+            }
+
+            input(promptText) {
+                this.inputRequested = true;
+                return `Input requested: ${promptText}`;
+            }
+        }
+
+        const interpreter = new BasicInterpreter();
+
+        function executeCommand() {
+            const commandInput = document.getElementById("commandInput");
+            const outputDiv = document.getElementById("output");
+            const command = commandInput.value;
+
+            if (command.toLowerCase() === 'exit' || command.toLowerCase() === 'quit') {
+                return;
+            }
+
+            const result = interpreter.execute(command);
+            if (!interpreter.inputRequested) {
+                outputDiv.innerHTML += `>>> ${command}<br>${result}<br>`;
+            } else {
+                interpreter.inputCallback = (input) => {
+                    outputDiv.innerHTML += `>>> ${command}<br>${input}<br>`;
+                    interpreter.inputCallback = null;
+                };
+            }
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+            commandInput.value = '';
+        }
+
+        window.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                executeCommand();
+            }
+        });
+    </script>
+</body>
+</html>
