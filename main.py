@@ -37,6 +37,3 @@ def repl():
 
 if __name__ == "__main__":
     repl()
-
------
-Can you convert the code to node.js
