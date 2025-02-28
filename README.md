@@ -27,4 +27,5 @@ input("h: ")
 
 ## Important Notes (From January 28 2025)
 - Early Project: This Project is one of my very early proiects but today, i moved to large better projects
-- Inactive: This project has been not updated since 8 months 
+- Inactive: This project has been not updated since 8 months and will never updated again 
+- No Future Plans: This project is completely shut down although you can still use it via those links, there will no future plans 
