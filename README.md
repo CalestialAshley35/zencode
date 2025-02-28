@@ -23,3 +23,8 @@ print("hello universe")
 
 input("h: ")
 >>> h: 
+```
+
+## Important Notes (From January 28 2025)
+- Early Project: This Project is one of my very early proiects but today, i moved to large better projects
+- Inactive: This project has been not updated since 8 months 
